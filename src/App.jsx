@@ -1,35 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
+import GameBody from './components/GameBody';
+import Footer from './components/Footer';
+import sampleQuestions from './gameQuestions';
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+let numberOfQuestions = 4;
+let gameQuestions = sampleQuestions.sort(() => 0.5 - Math.random()).slice(0, numberOfQuestions);
+
+const App = () => {
+  const [questions, setQuestions] = useState(gameQuestions);
+  const [results, setResults] = useState({
+    total: numberOfQuestions,
+    answered: 0,
+    iconsType: []
+  });
+  console.log(results);
+  return <>
+    <GameBody questions={questions} setResults={setResults} />
+    <Footer results={results} />
+  </>
 }
 
-export default App
+export default App;
