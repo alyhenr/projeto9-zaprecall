@@ -39,7 +39,7 @@ const Wrapper = styled.div`
 
     width: 85%;
     
-    margin: 45px 45px 120px;
+    margin: 15px 45px 120px;
 `;
 
 const Logo = styled.div`    
@@ -50,7 +50,7 @@ const Logo = styled.div`
     
     width: 100%;
 
-    margin-bottom: 70px;
+    margin-bottom: 30px;
 
     img {
         max-width: 52px;
