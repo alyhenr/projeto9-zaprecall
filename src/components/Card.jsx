@@ -8,16 +8,22 @@ const options = [
     {
         text: 'Não lembrei',
         color: '#FF3030',
+        key: 'red',
+        img: images.wrong,
         dataTest: 'no-btn',
     },
     {
         text: 'Quase não lembrei',
         color: '#FF922E',
+        key: 'orange',
+        img: images.almost,
         dataTest: 'partial-btn',
     },
     {
         text: 'Zap!',
         color: '#2FBE34',
+        key: 'green',
+        img: images.check,
         dataTest: 'zap-btn',
     }
 ];
@@ -32,12 +38,10 @@ const Card = ({ question, answer, index, setResults }) => {
         dataTest: 'play-btn',
     });
 
-    const handleChoice = (choice) => {
+    const handleChoice = (option) => {
         if (cardStatus.answered) {
             return;
         }
-
-        setClicked(false);
 
         const changeStatus = (option, icon) => {
             const dataTest = option === 'red'
@@ -53,34 +57,13 @@ const Card = ({ question, answer, index, setResults }) => {
             }));
         };
 
-        switch (choice) {
-            case 'Não lembrei':
-                setResults(prevState => ({
-                    ...prevState,
-                    answered: prevState.answered + 1,
-                    iconsType: [...prevState.iconsType, 'red'],
-                }));
-                changeStatus('red', images.wrong);
-                break;
-            case 'Quase não lembrei':
-                setResults(prevState => ({
-                    ...prevState,
-                    answered: prevState.answered + 1,
-                    iconsType: [...prevState.iconsType, 'orange'],
-                }));
-                changeStatus('orange', images.almost);
-                break;
-            case 'Zap!':
-                setResults(prevState => ({
-                    ...prevState,
-                    answered: prevState.answered + 1,
-                    iconsType: [...prevState.iconsType, 'green'],
-                }));
-                changeStatus('green', images.check);
-                break;
-            default:
-                break;
-        }
+        setClicked(false);
+        setResults(prevState => ({
+            ...prevState,
+            answered: prevState.answered + 1,
+            iconsType: [...prevState.iconsType, option.key]
+        }));
+        changeStatus(option.key, option.img);
     };
 
     return (
@@ -116,7 +99,7 @@ const Card = ({ question, answer, index, setResults }) => {
                             bg={option.color}
                         >
                             <div
-                                onClick={() => handleChoice(option.text)}
+                                onClick={() => handleChoice(option)}
                                 data-test={option.dataTest}
                             >
                                 <h3>{option.text}</h3>
