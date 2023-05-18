@@ -8,14 +8,17 @@ const options = [
     {
         text: 'Não lembrei',
         color: '#FF3030',
+        dataTest: 'no-btn',
     },
     {
         text: 'Quase não lembrei',
         color: '#FF922E',
+        dataTest: 'partial-btn',
     },
     {
         text: 'Zap!',
         color: '#2FBE34',
+        dataTest: 'zap-btn',
     }
 ];
 
@@ -26,6 +29,7 @@ const Card = ({ question, answer, index, setResults }) => {
         answered: false,
         option: '',
         icon: images.arrowPlay,
+        dataTest: 'play-btn',
     });
 
     const handleChoice = (choice) => {
@@ -36,11 +40,16 @@ const Card = ({ question, answer, index, setResults }) => {
         setClicked(false);
 
         const changeStatus = (option, icon) => {
+            const dataTest = option === 'red'
+                ? 'no-icon'
+                : option === 'orange' ? 'partial-icon' : 'zap-icon';
+
             setCardStatus(prevState => ({
                 ...prevState,
                 answered: true,
                 option,
                 icon,
+                dataTest,
             }));
         };
 
@@ -57,7 +66,7 @@ const Card = ({ question, answer, index, setResults }) => {
                 setResults(prevState => ({
                     ...prevState,
                     answered: prevState.answered + 1,
-                    iconsType: [...prevState.iconsType, 'orange']
+                    iconsType: [...prevState.iconsType, 'orange'],
                 }));
                 changeStatus('orange', images.almost);
                 break;
@@ -65,7 +74,7 @@ const Card = ({ question, answer, index, setResults }) => {
                 setResults(prevState => ({
                     ...prevState,
                     answered: prevState.answered + 1,
-                    iconsType: [...prevState.iconsType, 'green']
+                    iconsType: [...prevState.iconsType, 'green'],
                 }));
                 changeStatus('green', images.check);
                 break;
@@ -76,30 +85,40 @@ const Card = ({ question, answer, index, setResults }) => {
 
     return (
         <CardWrapper
-            onClick={
-                () => clicked
-                    ? !flipped && setFlipped(true)
-                    : !cardStatus.answered && setClicked(true)
-            }
+            data-test="flashcard"
             clicked={clicked}
             flipped={flipped}
             cardStatus={cardStatus}
         >
             {!clicked && <div className={cardStatus.answered
                 ? "answered-card" : "initial-card"}>
-                <h2>Pergunta {index}</h2>
+                <h2 data-test="flashcard-text">Pergunta {index}</h2>
                 <img
+                    data-test={cardStatus.dataTest}
                     src={cardStatus.icon}
                     alt="Icon to see the question"
+                    onClick={() => { !flipped && setClicked(true) }}
                 />
             </div>}
             {clicked && <div className="question-answer">
-                <p>{flipped ? answer : question}</p>
-                <img id="flip-icon" src={images.arrowTurn} alt="Icon to see the answer" />
+                <p data-test="flashcard-text">{flipped ? answer : question}</p>
+                <img
+                    data-test="turn-btn"
+                    id="flip-icon"
+                    onClick={() => setFlipped(true)}
+                    src={images.arrowTurn}
+                    alt="Icon to see the answer"
+                />
                 <div className="options">
                     {options.map(option => (
-                        <OptionBox key={option.text} bg={option.color}>
-                            <div onClick={() => handleChoice(option.text)}>
+                        <OptionBox
+                            key={option.text}
+                            bg={option.color}
+                        >
+                            <div
+                                onClick={() => handleChoice(option.text)}
+                                data-test={option.dataTest}
+                            >
                                 <h3>{option.text}</h3>
                             </div>
                         </OptionBox>
@@ -120,19 +139,19 @@ Card.propTypes = {
 const CardWrapper = styled.div`
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-around;
 
     position: relative;
 
     width: 100%;
+    height: ${props => props.clicked
+        ? props.flipped ? 'auto' : '135px'
+        : 'auto'};
     
-    padding: 15px;
     background: #FFFFFF;
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
-
-    cursor: pointer;
 
     .initial-card, .answered-card {
         display: flex;
@@ -141,6 +160,10 @@ const CardWrapper = styled.div`
         gap: 30px;
 
         width: 100%;
+
+        img {
+            cursor: pointer;
+        }
     }
 
     .answered-card {
@@ -149,7 +172,7 @@ const CardWrapper = styled.div`
     }
 
     .question-answer {   
-        height: ${props => props.flipped ? 'auto' : '130px'};
+        height: ${props => props.flipped ? 'auto' : 'fit-content'};
         p {
             font-family: 'Recursive';
             font-style: normal;
@@ -167,6 +190,8 @@ const CardWrapper = styled.div`
     
             width: 30px;
             height: 20px;
+
+            cursor: pointer;
         }
     
         .options {
@@ -182,6 +207,7 @@ const CardWrapper = styled.div`
 `;
 
 const OptionBox = styled.div`  
+    margin: 20px auto -45px;
     div {
         display: flex;
         align-items: center;
@@ -193,6 +219,8 @@ const OptionBox = styled.div`
         color: #FFFFFF;
         background-color: ${props => props.bg};      
         border-radius: 5px;
+
+        cursor: pointer;
     }
     div>h3 {
         width: 100%;

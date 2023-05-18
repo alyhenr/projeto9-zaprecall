@@ -5,9 +5,18 @@ import { styled } from 'styled-components';
 import images from '../assets/images';
 
 const footerImages = {
-    'red': images.wrong,
-    'orange': images.almost,
-    'green': images.check,
+    'red': {
+        imgSrc: images.wrong,
+        dataTest: 'no-icon',
+    },
+    'orange': {
+        imgSrc: images.almost,
+        dataTest: 'partial-icon',
+    },
+    'green': {
+        imgSrc: images.check,
+        dataTest: 'zap-icon',
+    }
 };
 
 const Footer = ({ results }) => {
@@ -23,7 +32,7 @@ const Footer = ({ results }) => {
                 ...prevState,
                 imgSrc: images.sad,
                 greeting: 'Putz...',
-                message: 'Ainda faltam alguns...Mas não desanime!',
+                message: 'Ainda faltam alguns... Mas não desanime!',
                 endGame: true,
             }
             : {
@@ -37,8 +46,11 @@ const Footer = ({ results }) => {
     }
 
     return (
-        <FooterWrapper>
-            {results.answered === results.total && <div className="final-message">
+        <FooterWrapper data-test="footer">
+            {results.answered === results.total && <div
+                data-test="finish-text"
+                className="final-message"
+            >
                 <div className="emoji">
                     <img
                         src={finalGreeting.imgSrc}
@@ -54,7 +66,8 @@ const Footer = ({ results }) => {
             <div className="icons">
                 {results.iconsType.length > 0 && results.iconsType.map((icon, index) => (
                     <img
-                        src={footerImages[icon]}
+                        data-test={footerImages[icon].dataTest}
+                        src={footerImages[icon].imgSrc}
                         alt="icon-image"
                         key={`${icon}-${index}`}
                     />
@@ -125,7 +138,7 @@ const FooterWrapper = styled.div`
         }
 
         p {
-           width: 200px;            
+           width: 235px;            
         }
     }
 `;
