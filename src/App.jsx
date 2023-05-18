@@ -6,26 +6,42 @@ import RestartButton from './components/RestartButton';
 import WelcomeScreen from './components/WelcomeScreen';
 import sampleQuestions from './gameQuestions';
 
-
-let numberOfQuestions = 4;
-const randomQuestions = sampleQuestions.sort(() => 0.5 - Math.random()).slice(0, numberOfQuestions);
+const numberOfQuestionsDefault = 4;
+const shuffledQuestions = sampleQuestions.sort(() => 0.5 - Math.random());
+let randomQuestions;
 
 const App = () => {
   const [gameOn, setGameOn] = useState(false);
+  // Shared state between the flashcards and the footer:
   const [results, setResults] = useState({
-    total: numberOfQuestions,
+    total: numberOfQuestionsDefault,
     answered: 0,
     iconsType: []
   });
 
+  const generateQuestions = n => {
+    setResults(prevState => ({
+      ...prevState,
+      total: Math.floor(n),
+    }));
+    randomQuestions = shuffledQuestions.slice(0, n);
+  };
+
   return <>
     {gameOn ? <>
-      <GameBody questions={randomQuestions} setResults={setResults} />
+      <GameBody
+        questions={randomQuestions
+          || shuffledQuestions.slice(0, numberOfQuestionsDefault)}
+        setResults={setResults}
+      />
       <Footer results={results} />
       <RestartButton />
     </>
       :
-      <WelcomeScreen setGameOn={setGameOn} />
+      <WelcomeScreen
+        setGameOn={setGameOn}
+        generateQuestions={generateQuestions}
+      />
     }
 
   </>
