@@ -29,9 +29,9 @@ const options = [
 ];
 
 const Card = ({ question, answer, index, setResults }) => {
-    const [clicked, setClicked] = useState(false);
-    const [flipped, setFlipped] = useState(false);
-    const [cardStatus, setCardStatus] = useState({
+    const [clicked, setClicked] = useState(0);
+    const [flipped, setFlipped] = useState(0);
+    const [cardstatus, setCardstatus] = useState({
         answered: false,
         option: '',
         icon: images.arrowPlay,
@@ -39,7 +39,7 @@ const Card = ({ question, answer, index, setResults }) => {
     });
 
     const handleChoice = (option) => {
-        if (cardStatus.answered) {
+        if (cardstatus.answered) {
             return;
         }
 
@@ -48,7 +48,7 @@ const Card = ({ question, answer, index, setResults }) => {
                 ? 'no-icon'
                 : option === 'orange' ? 'partial-icon' : 'zap-icon';
 
-            setCardStatus(prevState => ({
+            setCardstatus(prevState => ({
                 ...prevState,
                 answered: true,
                 option,
@@ -57,7 +57,7 @@ const Card = ({ question, answer, index, setResults }) => {
             }));
         };
 
-        setClicked(false);
+        setClicked(0);
         setResults(prevState => ({
             ...prevState,
             answered: prevState.answered + 1,
@@ -71,24 +71,24 @@ const Card = ({ question, answer, index, setResults }) => {
             data-test="flashcard"
             clicked={clicked}
             flipped={flipped}
-            cardStatus={cardStatus}
+            cardstatus={cardstatus}
         >
-            {!clicked && <div className={cardStatus.answered
+            {clicked === 0 && <div className={cardstatus.answered
                 ? "answered-card" : "initial-card"}>
                 <h2 data-test="flashcard-text">Pergunta {index}</h2>
                 <img
-                    data-test={cardStatus.dataTest}
-                    src={cardStatus.icon}
+                    data-test={cardstatus.dataTest}
+                    src={cardstatus.icon}
                     alt="Icon to see the question"
-                    onClick={() => { !flipped && setClicked(true) }}
+                    onClick={() => { flipped === 0 && setClicked(1) }}
                 />
             </div>}
-            {clicked && <div className="question-answer">
-                <p data-test="flashcard-text">{flipped ? answer : question}</p>
+            {clicked === 1 && <div className="question-answer">
+                <p data-test="flashcard-text">{flipped === 1 ? answer : question}</p>
                 <img
                     data-test="turn-btn"
                     id="flip-icon"
-                    onClick={() => setFlipped(true)}
+                    onClick={() => setFlipped(1)}
                     src={images.arrowTurn}
                     alt="Icon to see the answer"
                 />
@@ -128,12 +128,12 @@ const CardWrapper = styled.div`
     position: relative;
 
     width: 100%;
-    height: ${props => props.clicked
-        ? props.flipped ? 'auto' : '135px'
+    height: ${props => props.clicked === 1
+        ? props.flipped === 1 ? 'auto' : '135px'
         : 'auto'};
     
-    background: ${props => ((props.clicked
-        && props.cardStatus.answered) || !props.clicked) && "#FFF"
+    background: ${props => ((props.clicked === 1
+        && props.cardstatus.answered) || props.clicked === 0) && "#FFF"
         || "#FFFFD5"};
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
@@ -153,11 +153,11 @@ const CardWrapper = styled.div`
 
     .answered-card {
         text-decoration: line-through;
-        color: ${props => props.cardStatus.option}
+        color: ${props => props.cardstatus.option}
     }
 
     .question-answer {   
-        height: ${props => props.flipped ? 'auto' : 'fit-content'};
+        height: ${props => props.flipped === 1 ? 'auto' : 'fit-content'};
         p {
             font-family: 'Recursive';
             font-style: normal;
@@ -168,7 +168,7 @@ const CardWrapper = styled.div`
         }   
 
         #flip-icon {       
-            display: ${props => props.flipped ? 'none' : 'flex'};
+            display: ${props => props.flipped === 1 ? 'none' : 'flex'};
             position: absolute;
             bottom:6px;
             right: 15px;
@@ -180,7 +180,7 @@ const CardWrapper = styled.div`
         }
     
         .options {
-            display: ${props => props.flipped ? 'flex' : 'none'};
+            display: ${props => props.flipped === 1 ? 'flex' : 'none'};
             flex-direction: row;
             justify-content: center;
             align-items: flex-end;

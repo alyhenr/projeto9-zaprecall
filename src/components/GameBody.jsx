@@ -14,7 +14,7 @@ const GameBody = ({ questions, setResults }) => {
             <Cards>
                 {questions.map((sample, index) => (
                     <Card
-                        key={sample.question}
+                        key={`${sample.question}-${index}`}
                         question={sample.question}
                         answer={sample.answer}
                         index={index + 1}
