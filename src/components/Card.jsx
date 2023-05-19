@@ -132,7 +132,9 @@ const CardWrapper = styled.div`
         ? props.flipped ? 'auto' : '135px'
         : 'auto'};
     
-    background: #FFFFFF;
+    background: ${props => ((props.clicked
+        && props.cardStatus.answered) || !props.clicked) && "#FFF"
+        || "#FFFFD5"};
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
 
