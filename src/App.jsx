@@ -6,7 +6,7 @@ import RestartButton from './components/RestartButton';
 import WelcomeScreen from './components/WelcomeScreen';
 import sampleQuestions from './gameQuestions';
 
-const numberOfQuestionsDefault = 4;
+const numberOfQuestionsDefault = 8;
 const shuffledQuestions = sampleQuestions.sort(() => 0.5 - Math.random());
 let randomQuestions;
 

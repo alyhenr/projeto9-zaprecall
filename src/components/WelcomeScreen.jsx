@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 
 import images from '../assets/images';
 
-const defaultInput = 4;
+const defaultInput = 8;
 const WelcomeScreen = ({ setGameOn, generateQuestions }) => {
     const [inputValue, setInputValue] = useState(defaultInput);
 
