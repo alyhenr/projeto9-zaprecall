@@ -44,7 +44,6 @@ const Footer = ({ results }) => {
             }
         ))
     }
-
     return (
         <FooterWrapper data-test="footer">
             {results.answered === results.total && <div

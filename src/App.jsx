@@ -19,13 +19,13 @@ const App = () => {
     iconsType: []
   });
 
-  // const generateQuestions = n => {
-  //   setResults(prevState => ({
-  //     ...prevState,
-  //     total: Math.floor(n),
-  //   }));
-  //   randomQuestions = shuffledQuestions.slice(0, n);
-  // };
+  const generateQuestions = n => {
+    setResults(prevState => ({
+      ...prevState,
+      total: Math.floor(n),
+    }));
+    randomQuestions = shuffledQuestions.slice(0, n);
+  };
 
   return <>
     {gameOn ? <>
@@ -40,7 +40,7 @@ const App = () => {
       :
       <WelcomeScreen
         setGameOn={setGameOn}
-      // generateQuestions={generateQuestions}
+        generateQuestions={generateQuestions}
       />
     }
 

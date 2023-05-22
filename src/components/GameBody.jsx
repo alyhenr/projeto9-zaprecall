@@ -36,10 +36,12 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
-    width: 85%;
     
-    margin: 15px 45px 120px;
+    padding: 15px 35px 120px;
+
+    @media screen and (max-width: 350px) {
+        padding: 15px 5px 120px;
+    }
 `;
 
 const Logo = styled.div`    
@@ -50,7 +52,7 @@ const Logo = styled.div`
     
     width: 100%;
 
-    margin-bottom: 30px;
+    margin: 0 auto 30px;
 
     img {
         max-width: 52px;
@@ -80,6 +82,12 @@ const Cards = styled.div`
     gap: 10px;
 
     width: 80%;
+
+    margin: 0 auto;
+
+    @media screen and (max-width: 500px) {
+        width: 98%;
+    }
 
     div {
         display: flex;

@@ -138,6 +138,17 @@ const CardWrapper = styled.div`
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
 
+    div>h2 {
+        font-family: 'Recursive';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 19px;
+
+        color: ${props => props.cardstatus.answered
+        ? props.cardstatus.option : "#333333"};
+    }
+
     .initial-card, .answered-card {
         display: flex;
         flex-direction: row;
@@ -156,7 +167,8 @@ const CardWrapper = styled.div`
         color: ${props => props.cardstatus.option}
     }
 
-    .question-answer {   
+    .question-answer {       
+        width: 100%;
         height: ${props => props.flipped === 1 ? 'auto' : 'fit-content'};
         p {
             font-family: 'Recursive';
@@ -165,6 +177,10 @@ const CardWrapper = styled.div`
             font-size: 18px;          
             color: #333333;
             text-align: start;
+
+            word-break: break-all;
+
+            width: 100%;
         }   
 
         #flip-icon {       
@@ -183,38 +199,58 @@ const CardWrapper = styled.div`
             display: ${props => props.flipped === 1 ? 'flex' : 'none'};
             flex-direction: row;
             justify-content: center;
-            align-items: flex-end;
-            gap:8px;
+            align-items: center;
+            gap: 25px;
 
-            margin: 0 auto;            
+            @media screen and (max-width: 300px){
+                gap: 5px;
+            }
+
+            width: 100%;
+
+            margin: 20px auto -15px;
+            padding: 0 !important;
         }
     }
 `;
 
 const OptionBox = styled.div`  
-    margin: 20px auto -45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    min-width: 70px;
+    max-width: 120px;
+
+    padding: 0 !important;
     div {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex !important;
+        align-items: center !important; 
+        justify-content: center !important;        
     
-        width: 100px;  
+        width: 100%;  
         height: 50px;
+
+        @media screen and (max-width: 500px) {           
+            height: 60px;
+            margin: 0 -5px;
+        }
     
         color: #FFFFFF;
         background-color: ${props => props.bg};      
         border-radius: 5px;
 
         cursor: pointer;
-    }
-    div>h3 {
-        width: 100%;
 
+        text-align: center;
+    }
+    div>h3 {       
         font-family: 'Recursive';
         font-style: normal;
         font-weight: 600;
         font-size: 12px;
-        text-align: center;
+        text-align: center; 
 
         color: #FFFFFF;
     }

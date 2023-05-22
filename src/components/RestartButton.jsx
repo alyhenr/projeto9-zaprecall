@@ -20,6 +20,10 @@ const Button = styled.div`
     top: 20px;
     right: 10px;
 
+    @media screen and (max-width: 520px){
+        display: none;
+    }
+
     background-color: white;
     border: 1px solid gray;
     border-radius: 15px;

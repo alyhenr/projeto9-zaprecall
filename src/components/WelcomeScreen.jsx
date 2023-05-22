@@ -1,12 +1,12 @@
-// import { useState } from 'react';
+import { useState } from 'react';
 import { PropTypes } from 'prop-types';
 import { styled } from "styled-components";
 
 import images from '../assets/images';
 
-// const defaultInput = 4;
-const WelcomeScreen = ({ setGameOn }) => {
-    // const [inputValue, setInputValue] = useState(defaultInput);
+const defaultInput = 4;
+const WelcomeScreen = ({ setGameOn, generateQuestions }) => {
+    const [inputValue, setInputValue] = useState(defaultInput);
 
     return (
         <Wrapper>
@@ -18,14 +18,14 @@ const WelcomeScreen = ({ setGameOn }) => {
                 data-test="start-btn"
                 onClick={() => {
                     setGameOn(true);
-                    // if (inputValue && (inputValue > 0 && inputValue < 50)) {
-                    //     generateQuestions(inputValue);
-                    // }
+                    if (inputValue && (inputValue > 0 && inputValue < 50)) {
+                        generateQuestions(inputValue);
+                    }
                 }}
             >
                 Iniciar Recall!
             </button>
-            {/* <h2>
+            <h2>
                 How many questions do you want to play with?<br />
                 (Choose between 1 and 50)
             </h2>
@@ -47,7 +47,7 @@ const WelcomeScreen = ({ setGameOn }) => {
                 <button onClick={() => setInputValue(
                     prevState => prevState + 1
                 )}>+</button>
-            </div> */}
+            </div>
         </Wrapper>
     )
 }
@@ -87,8 +87,23 @@ const Wrapper = styled.div`
             height: 181px;
         }
     }
+    
+    .logo>h1 {
+        font-family: 'Righteous';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 36px;
+
+        color: #FFFFFF;
+    }
 
     h2 {
+        font-family: 'Recursive';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+
+        color: #FFFFFF;
         text-align: center;
     }
 
